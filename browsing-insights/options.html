@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Browsing Insights — Settings</title>
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="page">
+
+    <header>
+      <div class="logo-mark"></div>
+      <div>
+        <h1>Browsing Insights</h1>
+        <p class="subtitle">Settings</p>
+      </div>
+    </header>
+
+    <!-- ── Your name ──────────────────────────────────────────────────────── -->
+    <section class="card">
+      <div class="card-title">Display name</div>
+      <div class="card-desc">Shown in the greeting when you open the popup.</div>
+      <div class="field-row">
+        <input id="name-input" type="text" placeholder="Your name" maxlength="40" />
+        <button id="name-save" class="btn-primary">Save</button>
+      </div>
+      <p id="name-status" class="status hidden"></p>
+    </section>
+
+    <!-- ── OpenRouter API key ─────────────────────────────────────────────── -->
+    <section class="card">
+      <div class="card-title">
+        OpenRouter API key
+        <a href="https://openrouter.ai/keys" target="_blank" class="ext-link">
+          Get a free key ↗
+        </a>
+      </div>
+      <div class="card-desc">
+        Used to generate your daily AI insights. Your key is stored locally and
+        never sent anywhere except directly to OpenRouter.
+      </div>
+      <div class="field-row">
+        <input id="key-input" type="password" placeholder="sk-or-v1-…" autocomplete="off" />
+        <button id="key-toggle" class="btn-icon" title="Show/hide key">👁</button>
+        <button id="key-save" class="btn-primary">Save</button>
+      </div>
+      <p id="key-status" class="status hidden"></p>
+
+      <!-- Model picker -->
+      <div class="card-subtitle">Free model</div>
+      <div class="card-desc">
+        These models are free on OpenRouter (no credit card required).
+        Larger models give richer insights but are slower.
+      </div>
+      <select id="model-select">
+        <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B — recommended</option>
+        <option value="deepseek/deepseek-chat-v3-0324:free">DeepSeek V3 — fast, smart</option>
+        <option value="qwen/qwen3-14b:free">Qwen3 14B — compact and capable</option>
+        <option value="mistralai/mistral-7b-instruct:free">Mistral 7B — lightest, fastest</option>
+      </select>
+      <button id="model-save" class="btn-secondary" style="margin-top:8px">Save model choice</button>
+      <p id="model-status" class="status hidden"></p>
+    </section>
+
+    <!-- ── Groq API key ──────────────────────────────────────────────────────── -->
+    <section class="card">
+      <div class="card-title">
+        Groq API key
+        <a href="https://console.groq.com/keys" target="_blank" class="ext-link">
+          Get a free key ↗
+        </a>
+      </div>
+      <div class="card-desc">
+        Groq's free tier gives you 1,000 requests/day on Llama 3.3 70B — more
+        reliable than OpenRouter's free models. If a Groq key is set it takes
+        priority over OpenRouter.
+      </div>
+      <div class="field-row">
+        <input id="groq-input" type="password" placeholder="gsk_…" autocomplete="off" />
+        <button id="groq-toggle" class="btn-icon" title="Show/hide key">👁</button>
+        <button id="groq-save" class="btn-primary">Save</button>
+      </div>
+      <p id="groq-status" class="status hidden"></p>
+    </section>
+
+    <!-- ── Privacy controls ───────────────────────────────────────────────── -->
+    <section class="card">
+      <div class="card-title">Privacy</div>
+      <div class="card-desc">
+        Domains in the blocklist are never tracked — not even for time.
+        Add banking, health, or any site you want kept fully private.
+      </div>
+      <div class="field-row">
+        <input id="blocklist-input" type="text" placeholder="e.g. mybank.com" />
+        <button id="blocklist-add" class="btn-primary">Add</button>
+      </div>
+      <div id="blocklist-tags" class="tag-list"></div>
+      <p id="blocklist-status" class="status hidden"></p>
+    </section>
+
+    <!-- ── Category classifier ──────────────────────────────────────────────── -->
+    <section class="card">
+      <div class="card-title">Site categories</div>
+      <div class="card-desc">
+        Sites showing as "Other" in your charts can be manually classified here.
+        Your choices are saved permanently and applied immediately.
+      </div>
+
+      <!-- Unknown domains list — populated by JS -->
+      <div id="unknown-domains-list">
+        <div class="classifier-loading">Loading uncategorised sites…</div>
+      </div>
+
+      <!-- Manual add for any domain -->
+      <div class="card-subtitle" style="margin-top:10px">Add any domain manually</div>
+      <div class="field-row">
+        <input id="classifier-domain" type="text" placeholder="e.g. producthunt.com" />
+        <select id="classifier-cat">
+          <option value="coding">💻 Coding & Dev</option>
+          <option value="cloud">☁️ Cloud & DevOps</option>
+          <option value="ai_tools">🤖 AI Tools</option>
+          <option value="project_mgmt">📋 Project Mgmt</option>
+          <option value="docs">📝 Docs & Writing</option>
+          <option value="comms">💬 Communication</option>
+          <option value="reading">📖 Reading</option>
+          <option value="news">📰 News</option>
+          <option value="social">📱 Social Media</option>
+          <option value="video">▶️ Video</option>
+          <option value="shopping">🛒 Shopping</option>
+          <option value="sports">🏏 Sports</option>
+          <option value="finance">💰 Finance</option>
+          <option value="learning">🎓 Learning</option>
+          <option value="other">🌐 Other</option>
+        </select>
+        <button id="classifier-add" class="btn-primary">Save</button>
+      </div>
+      <p id="classifier-status" class="status hidden"></p>
+
+      <!-- Saved custom classifications -->
+      <div id="classifier-saved" class="classifier-saved hidden">
+        <div class="card-subtitle" style="margin-top:10px">Your custom classifications</div>
+        <div id="classifier-tags" class="tag-list"></div>
+      </div>
+    </section>
+
+    <!-- ── Data management ────────────────────────────────────────────────── -->
+    <section class="card">
+      <div class="card-title">Data</div>
+      <div id="storage-stats" class="storage-stats">Loading…</div>
+      <div class="btn-row">
+        <button id="export-today-btn" class="btn-secondary">Export today</button>
+        <button id="export-all-btn" class="btn-secondary">Export all days</button>
+      </div>
+      <div class="btn-row" style="margin-top:4px">
+        <button id="delete-sessions-btn" class="btn-danger">Delete sessions only</button>
+        <button id="delete-all-btn" class="btn-danger">Delete everything</button>
+      </div>
+      <p id="data-status" class="status hidden"></p>
+    </section>
+
+    <footer>Browsing Insights v0.4.0 · All data stored locally on your device</footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

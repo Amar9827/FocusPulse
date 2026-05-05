@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Browsing Insights</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+
+  <!-- ── Header ─────────────────────────────────────────────────────────── -->
+  <header>
+    <div class="logo-mark"></div>
+    <div class="header-text">
+      <h1 id="greeting">Browsing Insights</h1>
+      <span id="tracking-pill" class="pill pill-active">● tracking</span>
+    </div>
+    <button id="refresh-btn" class="icon-btn" title="Refresh">↻</button>
+  </header>
+
+  <!-- ── Loading state ──────────────────────────────────────────────────── -->
+  <div id="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading today's data…</p>
+  </div>
+
+  <!-- ── Empty state ────────────────────────────────────────────────────── -->
+  <div id="empty" class="empty-state hidden">
+    <div class="empty-icon">📊</div>
+    <p>No sessions recorded yet today.</p>
+    <p class="hint">Browse a few pages and come back!</p>
+  </div>
+
+  <!-- ── Dashboard ──────────────────────────────────────────────────────── -->
+  <div id="dashboard" class="hidden">
+
+    <!-- Focus score + key stats -->
+    <section class="stats-row">
+      <div class="stat-card focus-card">
+        <div id="focus-score" class="focus-number">—</div>
+        <div id="focus-label" class="focus-label">Focus score</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-time" class="stat-value">—</div>
+        <div class="stat-label">Active time</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-sessions" class="stat-value">—</div>
+        <div class="stat-label">Sessions</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-switches" class="stat-value">—</div>
+        <div class="stat-label">Switches/hr</div>
+      </div>
+    </section>
+
+    <!-- Category donut chart -->
+    <section class="chart-section">
+      <div class="section-title">Time by category</div>
+      <div class="donut-wrap">
+        <canvas id="donut-chart" width="140" height="140"></canvas>
+        <div class="donut-legend" id="donut-legend"></div>
+      </div>
+    </section>
+
+    <!-- Hourly activity bar chart -->
+    <section class="chart-section">
+      <div class="section-title">
+        Activity by hour
+        <span id="peak-hour-label" class="section-sub"></span>
+      </div>
+      <canvas id="bar-chart" width="340" height="80"></canvas>
+    </section>
+
+    <!-- Top domains list -->
+    <section class="chart-section">
+      <div class="section-title">Top sites today</div>
+      <div id="top-domains"></div>
+    </section>
+
+    <!-- Longest focus block -->
+    <section class="focus-block" id="focus-block-section">
+      <span class="focus-block-icon">🎯</span>
+      <div>
+        <div id="focus-block-text" class="focus-block-title"></div>
+        <div id="focus-block-sub" class="focus-block-sub"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ── AI Insights panel ────────────────────────────────────────────────── -->
+  <div id="insights-section" class="hidden">
+    <div id="insights-loading" class="insights-loading hidden">
+      <div class="spinner-small"></div>
+      <span>Generating insights…</span>
+    </div>
+    <div id="insights-content" class="hidden">
+      <div class="insights-card">
+        <div class="insights-header">
+          <span class="insights-icon">✨</span>
+          <span class="insights-title">AI Insights</span>
+          <span id="insights-model" class="insights-model"></span>
+        </div>
+        <p id="insights-narrative" class="insights-narrative"></p>
+        <div id="insights-highlight" class="insights-highlight"></div>
+        <div id="insights-patterns" class="insights-patterns"></div>
+        <div id="insights-suggestion" class="insights-suggestion"></div>
+        <div id="insights-verdict" class="insights-verdict"></div>
+      </div>
+    </div>
+    <div id="insights-error" class="insights-error hidden"></div>
+  </div>
+
+  <!-- ── Generate button ───────────────────────────────────────────────────── -->
+  <div id="generate-wrap" class="generate-wrap hidden">
+    <button id="generate-btn" class="btn-generate">✨ Generate today's insights</button>
+  </div>
+
+  <!-- ── Page summariser ──────────────────────────────────────────────────── -->
+  <div id="summariser-section" class="summariser-section hidden">
+    <div class="summariser-header">
+      <span class="summariser-icon">📄</span>
+      <span class="summariser-title">Page Summary</span>
+      <span id="summariser-engine" class="summariser-engine"></span>
+      <button id="summariser-close" class="icon-btn" title="Close">✕</button>
+    </div>
+    <div id="summariser-loading" class="summariser-loading hidden">
+      <div class="spinner-small"></div>
+      <span id="summariser-status">Summarising…</span>
+    </div>
+    <div id="summariser-output" class="summariser-output hidden"></div>
+    <div id="summariser-error" class="summariser-error hidden"></div>
+  </div>
+
+  <!-- ── Summarise button ───────────────────────────────────────────────────── -->
+  <div id="summarise-wrap" class="summarise-wrap">
+    <button id="summarise-btn" class="btn-summarise" title="Summarise this page">
+      📄 Summarise this page
+    </button>
+  </div>
+
+  <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+  <footer>
+    <span id="last-updated">—</span>
+    <span id="storage-info" class="storage-info">—</span>
+    <button id="settings-btn" title="Settings" style="background:none;border:none;cursor:pointer;font-size:14px;color:#d1d5db;padding:0 2px;">⚙</button>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>
