@@ -20,7 +20,14 @@ function showStatus(el, message, isError = false) {
 }
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  // Use local date, not UTC — toISOString() returns UTC which causes
+  // the date to roll over at midnight UTC, not midnight local time.
+  // For IST (UTC+5:30), this means the day key was wrong until 5:30am local.
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm   = String(d.getMonth() + 1).padStart(2, "0");
+  const dd   = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 // ─── 1. Display name ─────────────────────────────────────────────────────────
