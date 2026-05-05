@@ -1,4 +1,4 @@
-# Browsing Insights
+# FocusPulse
 
 A privacy-first Chrome extension that tracks your daily browsing, generates AI-powered insights about your work patterns, and summarises any page you're reading — all with your data staying on your device.
 
@@ -40,24 +40,81 @@ This is the most important thing to understand about how the extension works.
 
 ---
 
-## Setup
+## Installation
 
 ### Requirements
-- Chrome 138 or later
-- A free [Groq API key](https://console.groq.com/keys) (recommended) or [OpenRouter key](https://openrouter.ai/keys)
-- No credit card required for either
+- **Chrome 138 or later** — check yours at `chrome://settings/help`
+- **A free Groq API key** — get one at [console.groq.com/keys](https://console.groq.com/keys) (no credit card needed)
+- **For on-device page summarisation** — Chrome 138+ with 4GB+ GPU VRAM (optional, Groq is used as fallback)
 
-### Installation
-1. Download and unzip the extension folder
-2. Open `chrome://extensions` in Chrome
-3. Enable **Developer mode** (top-right toggle)
-4. Click **Load unpacked** and select the `browsing-insights` folder
-5. The extension icon appears in your toolbar — pin it for easy access
+---
 
-### Adding your API key
-1. Click the extension icon → click ⚙ in the bottom-right corner
-2. Paste your Groq key (starts with `gsk_`) in the **Groq API key** field
-3. Click Save — the extension will use Groq for daily insights automatically
+### Method 1 — Install from GitHub (recommended)
+
+**Step 1 — Download the extension**
+
+Go to the [Releases page](https://github.com/Amar9827/FocusPulse/releases) and download the latest `focuspulse.zip`. Unzip it to a permanent location on your machine — avoid Downloads, as Chrome needs the folder to stay in place.
+
+> ⚠️ Do not unzip into a temporary folder. Chrome loads the extension from this folder every time it starts.
+
+**Step 2 — Open Chrome Extensions**
+
+Type `chrome://extensions` in your address bar and press Enter.
+
+**Step 3 — Enable Developer Mode**
+
+Toggle **Developer mode** on using the switch in the top-right corner of the page.
+
+
+**Step 4 — Load the extension**
+
+Click **Load unpacked** and select the `focuspulse` folder (the one containing `manifest.json`, not the zip itself).
+
+**Step 5 — Pin it to your toolbar**
+
+Click the puzzle piece icon 🧩 in Chrome's toolbar → find FocusPulse → click the pin icon. The FocusPulse icon will now appear in your toolbar permanently.
+
+---
+
+### Method 2 — Clone and load from source
+
+```bash
+git clone https://github.com/Amar9827/FocusPulse.git
+cd focuspulse
+```
+
+Then follow Steps 2–5 above, selecting the cloned folder in Step 4.
+
+---
+
+### Step 6 — Add your free Groq API key
+
+FocusPulse works without an API key (the dashboard and tracking run fully locally), but AI insights and page summarisation require one.
+
+1. Get a free key at [console.groq.com/keys](https://console.groq.com/keys) — sign in with Google, click **Create API Key**
+2. Copy the key (starts with `gsk_`)
+3. Click the FocusPulse icon in your toolbar
+4. Click the ⚙ gear icon in the bottom-right of the popup
+5. Paste your key into the **Groq API key** field and click **Save**
+
+> ✅ You're set. FocusPulse will start tracking immediately and generate your first AI insights at 6pm today (or click ✨ Generate in the popup at any time).
+
+---
+
+### Updating
+
+When a new version is released:
+1. Download the new zip from the Releases page
+2. Replace the contents of your existing folder with the new files
+3. Go to `chrome://extensions` and click the **refresh icon** on the FocusPulse card
+
+Your data, API key, and settings are preserved across updates — they live in `chrome.storage.local`, not in the extension files.
+
+---
+
+### Uninstalling
+
+Go to `chrome://extensions` → find FocusPulse → click **Remove**. This removes the extension but leaves your browsing data in Chrome's local storage. To delete your data before uninstalling, go to Settings → Data → **Delete everything** first.
 
 ---
 
@@ -163,7 +220,7 @@ All session data is stored under date-keyed entries in `chrome.storage.local`:
 ## File structure
 
 ```
-browsing-insights/
+FocusPulse/
 ├── manifest.json       # Extension config, permissions, entry points
 ├── background.js       # Service worker: tracking, alarms, storage, LLM orchestration
 ├── content.js          # Page text extraction (runs in webpage context)
@@ -205,4 +262,4 @@ No npm packages. No build step. No backend. Load the folder and it works.
 
 ---
 
-*All data stored locally. No ads. No tracking of the tracker.*
+*FocusPulse — All data stored locally. No ads. No tracking of the tracker.*
